@@ -41,4 +41,16 @@ app.get("/editCon",function(req,res){
     })
 })
 
+app.get("/addCon",function(req,res){
+    var name=req.query.name||"";
+    var age=req.query.age||0;
+    var sex=req.query.sex||1;
+    var classes=req.query.classes||"";
+    mysql.query(`insert into stuinfo (name,sex,age,classes) values ('${name}','${sex}','${age}','${classes}')`,function (error,result) {
+        res.send(result.insertId.toString())
+
+    })
+
+})
+
 app.listen(8888);

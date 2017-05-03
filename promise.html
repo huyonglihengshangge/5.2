@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+
+        /*
+        *   1.  指定要执行的函数
+        *   2.  在执行完毕的时候要调用reslove()通知程序，代码执行完毕
+        *
+        *   3.  then()来执行最后的步骤
+        *
+        *
+        */
+
+
+        function defer(){
+           return new promise();
+        }
+
+        function promise(){
+             this.resolveArr=[];
+             this.doneArr=[];
+             this.promise=this;
+        }
+        promise.prototype={
+            resolve:function(args){
+                this.resolveArr.push(Promise.resolve(args));
+
+              this.resolveArr[0].then((e)=>{
+                        this.resolveArr.shift();
+                        this.doneArr[0](e);
+                        this.doneArr.shift();
+                    })
+
+
+
+            },
+
+            then:function(callback){
+                this.doneArr.push(callback);
+                return this;
+            }
+        }
+        var obj=defer();
+
+
+        function a(){
+            setTimeout(function(){
+                console.log(1);
+                obj.resolve("one");
+            },2000)
+        }
+
+        function b(){
+            setTimeout(function(){
+                console.log(2);
+                obj.resolve("two");
+            },2000)
+        }
+
+        function c(){
+            setTimeout(function(){
+                console.log(3);
+                obj.resolve("three");
+            },2000)
+        }
+
+
+        a();
+
+        obj.then(function(a){
+            console.log(a);
+            b();
+        }).then(function(a){
+            console.log(a)
+            c()
+        }).then(function(a){
+            console.log(a);
+        })
+
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

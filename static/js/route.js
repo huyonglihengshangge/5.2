@@ -6,6 +6,9 @@ angular.module("route",["ngRoute"])
         }).when("/edit/:id",{
             templateUrl:"/tpl/edit.html",
             controller:"edit"
+        }).when("/add",{
+            templateUrl:"/tpl/add.html",
+            controller:"add"
         })
 
     }])
